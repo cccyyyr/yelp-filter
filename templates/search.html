@@ -1,0 +1,8 @@
+<form action="/search" method="get">
+<input type="text" name="location" size="30"> <input type="submit" value="Search">
+</form><hr>
+{% if result %}
+	{% for res in result %}
+	<li>{{ res }}</li>
+	{% endfor %}
+{% endif %}

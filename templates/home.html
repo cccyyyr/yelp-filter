@@ -1,0 +1,9 @@
+{% block content %}
+    {% if restaurant_list %}
+        {% for r in restaurant_list%}
+            <p>{{ r.name }}</p>
+        {% endfor %}
+    {% else %}
+        <p>No restaurant found.</p>
+    {% endif %}
+{% endblock %}
