@@ -2,12 +2,14 @@ import os
 import time
 from pip._vendor import requests
 from pip._vendor.requests import HTTPError, RequestException
-from nltk import bigrams
 import pandas as pd
 import difflib
 
 
 class Restaurant(object):
+    '''
+    a class that represent each restaurant.
+    '''
     def __init__(self, id, yelp_link, pic_link, name, categories, price, location):
         self.id = id
         self.yelp_link = yelp_link
@@ -20,15 +22,27 @@ class Restaurant(object):
 
 class YelpWrapper:
     def __init__(self):
+        '''
+        initiate a wrapper class by retrieving API keys from .env file
+        '''
         self.API_KEY = os.getenv("YELP_API")
         self.CLIENT_KEY = os.getenv("YELP_CLIENT")
 
-    def search(self, location: str, categories: str, open_now: bool, price: str, sort_by: str) -> [Restaurant]:
+    def search(self, location: str, categories: str, open_now: bool, price: str) -> [Restaurant]:
+        '''
+        :param location: location user input
+        :param categories: category information we parsed from user input by our parse method below so we can use a
+        category best matched to what the user desires.
+        :param open_now: whether user want it to be open now or not
+        :param price: price range user put in
+        :return: A list of restaurants matching the query.
+        Use YelpAPI to retrieve real time list of restaurants that user might be interested in.
+        '''
         params = {
             "location": location,
             "categories": categories,
             "open_now": open_now,
-            "sort_by": sort_by,
+            "sort_by": "rating",
             "price": price,
             "limit": 50
         }
@@ -69,6 +83,10 @@ class YelpWrapper:
             raise ConnectionError
 
     def get_all_categories(self) -> [str]:
+        """
+        :return: a list of all categories.
+        Use API key to call all categoriess. This method is used in pre_process.py and used to generate cato.csv.
+        """
         try:
             url = "https://api.yelp.com/v3/categories"
             headers = {"Authorization": f"Bearer {self.API_KEY}"}
@@ -94,8 +112,16 @@ class YelpWrapper:
         else:
             raise ConnectionError
 
+
     @staticmethod
     def parse(input_cate):
+        '''
+        :param input_cate: the category information user put in
+        :return: a parsed cateoory.
+        In the event that the input category does not match any one in yelp database, yelp API itself does not do
+        anything with it and return a bunch of random categories. Through doing this, we can parse the category and
+        return restaurants users are most likely looking for.
+        '''
         all_df = pd.read_csv("cato.csv")
         all_cato_lst = all_df["categories"].tolist()
         top10_similiar = difflib.get_close_matches(input_cate, all_cato_lst)

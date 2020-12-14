@@ -37,11 +37,13 @@
       {% if restaurant_list %}
           {% for r in restaurant_list%}
              <img alt={{ r.name }} src={{ r.pic_link }}
-                      width=150" height="150">
+                      width=200" height="200">
               <p><span style="font-weight:bold; font-style:italic">{{ r.name }}</span> </p>
               <p>Price: <span style="font-weight:bold; color: gold">{{ r.price }} </span></p>
               <p>Location: {{ r.location }}</p>
-              <br><a href={{r.yelp_link}}>Yelp Page</a></br>
+              <a href={{r.yelp_link}}>Yelp Page</a>
+              <br />
+              <br />
               <br />
           {% endfor %}
       {% else %}
