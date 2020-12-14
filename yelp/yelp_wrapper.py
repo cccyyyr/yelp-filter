@@ -8,13 +8,12 @@ import difflib
 
 
 class Restaurant(object):
-    def __init__(self, id, yelp_link, pic_link, name, categories, open, price, location):
+    def __init__(self, id, yelp_link, pic_link, name, categories, price, location):
         self.id = id
         self.yelp_link = yelp_link
         self.pic_link = pic_link
         self.name = name
         self.categories = categories
-        self.open = open
         self.price = price
         self.location = location
 
@@ -47,14 +46,13 @@ class YelpWrapper:
                         name = bizz['name']
                         yelp_link = bizz['url']
                         pic_link = bizz['image_url']
-                        open_now = not bool(bizz['is_closed'])
                         cato = []
                         for category in bizz['categories']:
                             cato.append(category['title'])
                         loca = bizz['location']['display_address']
                         p = bizz['price']
                         res.append(Restaurant(id=id, yelp_link=yelp_link, pic_link=pic_link, name=name, categories=cato,
-                                              open=open_now, price=p, location=loca))
+                                              price=p, location=loca))
                     return res
                 time.sleep(1)
         except HTTPError as http_err:
