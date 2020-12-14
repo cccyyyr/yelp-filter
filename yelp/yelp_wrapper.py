@@ -70,14 +70,13 @@ class YelpWrapper:
                     return res
                 time.sleep(1)
         except HTTPError as http_err:
-            print(f"HTTP error occurred when retrieving last price: {http_err}")
+            print(f"HTTP error occurred when retrieving businesses: {http_err}")
             raise http_err
         except RequestException as r_err:
-            print(f"Other request error occurred when retrieving last "
-                  f"price: {r_err}")
+            print(f"Other request error occurred when retrieving businesses: {r_err}")
             raise r_err
         except Exception as err:
-            print(f"Other error occurred when retrieving last price: {err}")
+            print(f"Other error occurred when retrieving businesses: {err}")
             raise err
         else:
             raise ConnectionError
@@ -117,7 +116,7 @@ class YelpWrapper:
     def parse(input_cate):
         '''
         :param input_cate: the category information user put in
-        :return: a parsed cateoory.
+        :return: a parsed category.
         In the event that the input category does not match any one in yelp database, yelp API itself does not do
         anything with it and return a bunch of random categories. Through doing this, we can parse the category and
         return restaurants users are most likely looking for.

@@ -47,6 +47,6 @@ def search_result(request, location, price=1, categories="", open_now="True"):
     '''
     yelp = YelpWrapper()
     categories=YelpWrapper.parse(categories)
-    result = yelp.search(location=location, categories=categories, open_now=open_now, sort_by="rating", price=str(price))
+    result = yelp.search(location=location, categories=categories, open_now=open_now, price=str(price))
     context = {'restaurant_list': result}
     return render(request, 'home.html', context)
