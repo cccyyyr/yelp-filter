@@ -4,6 +4,8 @@ from pip._vendor import requests
 from pip._vendor.requests import HTTPError, RequestException
 from nltk import bigrams
 import pandas as pd
+#from pymagnitude import *
+import difflib
 class Restaurant(object):
     def __init__(self, id, yelp_link, pic_link, name, categories, open, price, location):
         self.id = id
@@ -21,8 +23,7 @@ class YelpWrapper:
         self.API_KEY = os.getenv("YELP_API")
         self.CLIENT_KEY = os.getenv("YELP_CLIENT")
 
-    def search(self, location: str, categories: str, open_now: bool, price: str, sort_by: str) -> [
-        Restaurant]:
+    def search(self, location: str, categories: str, open_now: bool, price: str, sort_by: str) -> [Restaurant]:
         params = {
             "location": location,
             "categories": categories,
@@ -95,8 +96,14 @@ class YelpWrapper:
             raise ConnectionError
 
     @staticmethod
-    def parse(cato):
+    def parse(cato, input_cate):
         curr_grams = bigrams(cato)
         all_df = pd.read_csv("cato.csv")
-        all_cato = all_df["categories"]
+        all_cato_lst = all_df["categories"].tolist()
         #TODO: find the most similar category.
+
+        top10_similiar = difflib.get_close_matches(input_cate, all_cato_lst)
+
+
+
+
