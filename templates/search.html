@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <titwle>Hello, world!</titwle>
   </head>
   <body>
     <h1>Hello!</h1>
@@ -17,39 +17,10 @@
     <p> <a href="{% url 'search' %}" class="button">Begin Searching!</a></p>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-	
-	
-	<form action="/search" method="get">
-		{% csrf_token %}
-		<label for="category">Enter a category:</label>
-		<input type="text" name="category" size="30">
-		<br><br>
-		<label for="location">Enter a location:</label> 
-		<input type="text" name="location" size="30"> 
-		<br><br>
-		<label for="price">Choose a price level:</label>
-		<select name="price" id="price">
-		  <option value="1">$</option>
-		  <option value="2">$$</option>
-		  <option value="3">$$$</option>
-		  <option value="4">$$$$</option>
-		</select>
-		<br><br>
-		<label for="hours">Choose hours:</label>
-		<select name="hours" id="hours">
-			<option value="Open Now">$</option>
-			<option value="No Preference">$$</option>
-		</select>
-		<br><br>
-		<input type="submit" value="Search">
-	  </form>
-	
-	{% if result %}
-		{% for res in result %}
-		<li>{{ res }}</li>
-		{% endfor %}
-	{% endif %}
 
-
+	<form method="POST" class="search-form">{% csrf_token %}
+        {{ form.as_p }}
+        <input type = "submit" value = "Go" />
+    </form>
 </body>
 </html>
